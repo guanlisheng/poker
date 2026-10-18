@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071b15">
+  <title>Poker Terminal · 本地计时器</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #071b15;
+      color: #f5f5ed;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      --gold: #e1bd72;
+      --muted: #a2b2a9;
+      --panel: rgba(15, 38, 29, .82);
+      --line: rgba(255, 255, 255, .1);
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(27, 94, 65, .42), transparent 56%),
+        radial-gradient(ellipse at 50% 100%, rgba(16, 61, 43, .36), transparent 58%),
+        #071b15;
+    }
+    button { font: inherit; }
+    .page {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      padding: max(22px, env(safe-area-inset-top)) clamp(22px, 4vw, 76px) max(22px, env(safe-area-inset-bottom));
+    }
+    .topbar, .brand, .top-actions, .section-heading, .player-row, .modal-head {
+      display: flex;
+      align-items: center;
+    }
+    .topbar { justify-content: space-between; gap: 16px; }
+    .brand { gap: 11px; }
+    .brand-mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 1px solid rgba(225, 189, 114, .5);
+      border-radius: 14px;
+      color: var(--gold);
+      background: rgba(225, 189, 114, .08);
+      font-size: 23px;
+    }
+    .brand-name { font-weight: 760; letter-spacing: .06em; }
+    .brand-caption, .eyebrow {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .top-actions { gap: 9px; }
+    .badge {
+      padding: 7px 10px;
+      border: 1px solid rgba(137, 211, 169, .2);
+      border-radius: 999px;
+      background: rgba(137, 211, 169, .08);
+      color: #a9e0bc;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      white-space: nowrap;
+    }
+    main {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      min-height: 0;
+      gap: clamp(18px, 3vh, 38px);
+      padding: clamp(20px, 4vh, 48px) 0;
+    }
+    .intro { margin-bottom: 22px; text-align: center; }
+    .intro h1 {
+      margin: 8px 0 7px;
+      font-size: clamp(24px, 4vw, 34px);
+      font-weight: 690;
+      letter-spacing: .015em;
+    }
+    .intro p { margin: 0; color: var(--muted); font-size: 14px; }
+    .table {
+      position: relative;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      min-height: 0;
+      overflow: hidden;
+      padding: clamp(28px, 5vh, 70px) clamp(24px, 6vw, 120px);
+      border: 1px solid rgba(225, 189, 114, .31);
+      border-radius: clamp(24px, 3vw, 42px);
+      background:
+        radial-gradient(ellipse at 50% 36%, rgba(24, 91, 63, .78), rgba(11, 45, 32, .95) 64%),
+        #103a2b;
+      box-shadow: 0 28px 90px rgba(0, 0, 0, .27), inset 0 1px rgba(255, 255, 255, .07);
+    }
+    .table::before {
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(255, 255, 255, .07);
+      border-radius: 23px;
+      content: "";
+      pointer-events: none;
+    }
+    .section-heading { position: relative; justify-content: space-between; gap: 12px; }
+    .level-title { color: var(--gold); font-size: clamp(14px, 1.25vw, 21px); font-weight: 750; letter-spacing: .13em; }
+    .status {
+      color: var(--muted);
+      font-size: clamp(12px, 1.1vw, 18px);
+    }
+    .status::before {
+      display: inline-block;
+      width: clamp(7px, .6vw, 10px);
+      height: clamp(7px, .6vw, 10px);
+      margin-right: clamp(7px, .6vw, 10px);
+      border-radius: 50%;
+      background: #89978f;
+      content: "";
+      vertical-align: 1px;
+    }
+    .status.running { color: #a9e0bc; }
+    .status.running::before { background: #6ed18f; box-shadow: 0 0 10px rgba(110, 209, 143, .65); }
+    .clock {
+      position: relative;
+      margin: clamp(20px, 3vh, 42px) 0 clamp(8px, 1vh, 14px);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(100px, 24vh, 320px);
+      font-weight: 720;
+      line-height: 1.04;
+      letter-spacing: -.055em;
+      text-align: center;
+      text-shadow: 0 8px 32px rgba(0, 0, 0, .22);
+    }
+    .level-caption {
+      margin-bottom: clamp(22px, 4vh, 52px);
+      color: var(--muted);
+      font-size: clamp(14px, 1.3vw, 21px);
+      text-align: center;
+    }
+    .blinds {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: clamp(16px, 2vw, 28px);
+      background: rgba(0, 0, 0, .13);
+    }
+    .blind {
+      padding: clamp(17px, 3vh, 38px) 8px;
+      text-align: center;
+    }
+    .blind + .blind { border-left: 1px solid var(--line); }
+    .blind-label { color: var(--muted); font-size: clamp(10px, 1.1vw, 17px); font-weight: 700; letter-spacing: .13em; }
+    .blind-value { margin-top: 8px; font-size: clamp(26px, 5.2vh, 64px); font-weight: 680; font-variant-numeric: tabular-nums; }
+    .next-level {
+      margin-top: clamp(15px, 2.5vh, 30px);
+      color: var(--muted);
+      font-size: clamp(13px, 1.2vw, 20px);
+      text-align: center;
+    }
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: clamp(16px, 5vw, 46px);
+      margin-top: clamp(20px, 3.5vh, 42px);
+      color: var(--muted);
+      font-size: clamp(12px, 1.1vw, 18px);
+    }
+    .stats strong { margin-left: 6px; color: #f5f5ed; font-size: clamp(14px, 1.4vw, 23px); }
+    .bottom {
+      display: flex;
+      justify-content: center;
+      flex-shrink: 0;
+      padding-top: 17px;
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      color: #8ea097;
+      font-size: 11px;
+    }
+    .modal {
+      position: fixed;
+      z-index: 4;
+      inset: 0;
+      display: grid;
+      padding: 18px;
+      place-items: center;
+      background: rgba(0, 0, 0, .65);
+      backdrop-filter: blur(8px);
+    }
+    .modal[hidden] { display: none; }
+    .modal-card {
+      width: min(420px, 100%);
+      padding: 20px;
+      border: 1px solid rgba(225, 189, 114, .35);
+      border-radius: 22px;
+      background: #10261d;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, .4);
+    }
+    .modal-head { justify-content: space-between; margin-bottom: 14px; }
+    .modal-head h2 { margin: 0; font-size: 18px; }
+    .close {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: transparent;
+      color: white;
+      font-size: 19px;
+      cursor: pointer;
+    }
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 9px;
+      padding: 12px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .045);
+    }
+    .setting-row.selected { border-color: rgba(225, 189, 114, .65); background: rgba(225, 189, 114, .09); }
+    .setting-name { color: #cbd5ce; font-size: 13px; }
+    .setting-value { display: flex; align-items: center; gap: 9px; }
+    .adjust {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .07);
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .value { min-width: 42px; color: var(--gold); font-weight: 720; text-align: center; }
+    .modal-hint { margin: 14px 0 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    @media (max-width: 600px) {
+      .page { padding-right: 16px; padding-left: 16px; }
+      .topbar { align-items: flex-start; }
+      .brand-caption { font-size: 9px; }
+      .badge { display: none; }
+      main { gap: 16px; padding: 24px 0 20px; }
+      .intro { margin-bottom: 16px; }
+      .intro p { font-size: 12px; }
+      .table { padding: 25px 16px; border-radius: 24px; }
+      .table::before { inset: 7px; border-radius: 18px; }
+      .clock { margin-top: 18px; font-size: clamp(76px, 17vw, 120px); }
+      .level-caption { margin-bottom: 20px; }
+      .blind { padding: 14px 4px; }
+      .stats { margin-top: 17px; }
+      .bottom { flex-direction: column; gap: 6px; text-align: center; }
+    }
+    @media (max-height: 700px) and (min-width: 601px) {
+      .page { padding-top: 16px; padding-bottom: 16px; }
+      main { gap: 10px; padding: 12px 0; }
+      .intro { margin-bottom: 0; }
+      .intro p { display: none; }
+      .table { padding: 22px 5vw; }
+      .clock { margin: 12px 0; font-size: clamp(90px, 24vh, 210px); }
+      .level-caption { margin-bottom: 16px; }
+      .blind { padding: 14px 8px; }
+      .blind-value { font-size: clamp(25px, 5vh, 46px); }
+      .stats { margin-top: 14px; }
+    }
+    @media (orientation: landscape) and (min-width: 900px) {
+      .page { padding: clamp(20px, 3vh, 48px) clamp(26px, 4vw, 80px); }
+      main { gap: 0; padding: clamp(8px, 1.5vh, 18px) 0; }
+      .intro { display: none; }
+      .table {
+        justify-content: space-evenly;
+        padding: clamp(20px, 3vh, 36px) clamp(36px, 6vw, 120px);
+      }
+      .clock { margin: clamp(16px, 2vh, 28px) 0; font-size: clamp(150px, 30vh, 400px); }
+      .level-caption { margin-bottom: clamp(16px, 2.5vh, 30px); font-size: clamp(16px, 1.6vw, 24px); }
+      .blind { padding: clamp(18px, 2.5vh, 30px) 8px; }
+      .blind-value { font-size: clamp(40px, 7vh, 84px); }
+      .next-level { font-size: clamp(16px, 1.4vw, 24px); }
+      .stats { margin-top: clamp(16px, 2.5vh, 30px); font-size: clamp(14px, 1.3vw, 21px); }
+      .stats strong { font-size: clamp(17px, 1.6vw, 27px); }
+      .brand-mark { width: 54px; height: 54px; font-size: 28px; }
+      .brand-name { font-size: clamp(18px, 1.3vw, 24px); }
+      .brand-caption, .eyebrow { font-size: clamp(12px, .9vw, 16px); }
+      .badge { font-size: clamp(12px, .9vw, 16px); }
+      .bottom { font-size: clamp(12px, .9vw, 16px); }
+      .modal { padding: clamp(24px, 4vh, 48px); }
+      .modal-card {
+        width: min(760px, 82vw);
+        padding: clamp(32px, 2.6vw, 52px);
+        border-radius: 28px;
+      }
+      .modal-head { margin-bottom: 22px; }
+      .modal-head h2 { font-size: clamp(28px, 2vw, 38px); }
+      .close {
+        width: clamp(48px, 3.4vw, 64px);
+        height: clamp(48px, 3.4vw, 64px);
+        border-radius: 16px;
+        font-size: clamp(28px, 2vw, 38px);
+      }
+      .setting-row {
+        gap: 18px;
+        margin-top: 14px;
+        padding: clamp(16px, 1.25vw, 24px);
+        border-radius: 18px;
+      }
+      .setting-name { font-size: clamp(20px, 1.45vw, 28px); }
+      .setting-value { gap: 14px; }
+      .adjust {
+        width: clamp(48px, 3.2vw, 60px);
+        height: clamp(48px, 3.2vw, 60px);
+        border-radius: 14px;
+        font-size: clamp(26px, 1.8vw, 36px);
+      }
+      .value {
+        min-width: clamp(56px, 4vw, 80px);
+        font-size: clamp(20px, 1.4vw, 28px);
+      }
+      .modal-hint {
+        margin-top: 22px;
+        font-size: clamp(16px, 1vw, 20px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">♠</div>
+        <div>
+          <div class="brand-name">POKER TERMINAL</div>
+          <div class="brand-caption">Tournament companion</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <span class="badge">本地计时 · 支持遥控</span>
+      </div>
+    </header>
+
+    <main>
+      <div class="intro">
+        <h1>赛事计时器</h1>
+        <p>赛事状态仅在当前页面运行，不会上传；支持手机遥控和外接屏显示。</p>
+      </div>
+
+      <section class="table" aria-label="扑克赛事计时器">
+        <div class="section-heading">
+          <div class="level-title" id="levelTitle">LEVEL 01</div>
+          <div class="status" id="clockStatus">已暂停</div>
+        </div>
+        <div class="clock" id="clock">20:00</div>
+        <div class="level-caption" id="levelCaption">常规盲注 · 第 1 级别</div>
+
+        <div class="blinds">
+          <div class="blind">
+            <div class="blind-label">SMALL BLIND</div>
+            <div class="blind-value" id="smallBlind">25</div>
+          </div>
+          <div class="blind">
+            <div class="blind-label">BIG BLIND</div>
+            <div class="blind-value" id="bigBlind">50</div>
+          </div>
+          <div class="blind">
+            <div class="blind-label">ANTE</div>
+            <div class="blind-value" id="ante">0</div>
+          </div>
+        </div>
+        <div class="next-level" id="nextLevel">下一级别：50 / 100</div>
+
+        <div class="stats">
+          <span>剩余参赛者<strong id="remainingPlayers">16</strong></span>
+          <span>总参赛者<strong id="totalPlayers">32</strong></span>
+          <span>盲注级别<strong id="levelCount">1 / 8</strong></span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bottom">
+      <span>本地计时器 · 无需登录或联网</span>
+    </footer>
+  </div>
+
+  <div class="modal" id="settingsModal" hidden>
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="modal-head">
+        <h2 id="settingsTitle">计时器设置</h2>
+        <button class="close" id="closeSettings" aria-label="关闭">×</button>
+      </div>
+      <div id="settingsRows"></div>
+      <p class="modal-hint">方向键上下选择项目，左右调整数值；确认或返回可关闭。设置会立即应用于当前计时器。</p>
+    </section>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var levels = [
+        { small: 25, big: 50, ante: 0 },
+        { small: 50, big: 100, ante: 0 },
+        { small: 75, big: 150, ante: 0 },
+        { small: 100, big: 200, ante: 25 },
+        { small: 150, big: 300, ante: 25 },
+        { small: 200, big: 400, ante: 50 },
+        { small: 300, big: 600, ante: 75 },
+        { small: 400, big: 800, ante: 100 }
+      ];
+      var levelIndex = 0;
+      var levelDuration = 20 * 60;
+      var remainingSeconds = levelDuration;
+      var remainingPlayers = 16;
+      var totalPlayers = 32;
+      var running = false;
+      var timer = null;
+      var menuOpen = false;
+      var selectedSetting = 0;
+      var settingRows = [
+        { key: "remaining", label: "剩余参赛者" },
+        { key: "total", label: "总参赛者" },
+        { key: "duration", label: "每级时长（分钟）" }
+      ];
+
+      var el = function (id) { return document.getElementById(id); };
+      var formatTime = function (seconds) {
+        var safe = Math.max(0, seconds);
+        return String(Math.floor(safe / 60)).padStart(2, "0") + ":" +
+          String(safe % 60).padStart(2, "0");
+      };
+
+      function render() {
+        var current = levels[levelIndex];
+        var following = levels[Math.min(levelIndex + 1, levels.length - 1)];
+        el("clock").textContent = formatTime(remainingSeconds);
+        el("levelTitle").textContent = "LEVEL " + String(levelIndex + 1).padStart(2, "0");
+        el("levelCaption").textContent = "常规盲注 · 第 " + (levelIndex + 1) + " 级别";
+        el("smallBlind").textContent = current.small.toLocaleString("zh-CN");
+        el("bigBlind").textContent = current.big.toLocaleString("zh-CN");
+        el("ante").textContent = current.ante.toLocaleString("zh-CN");
+        el("nextLevel").textContent = levelIndex === levels.length - 1
+          ? "已到最后一级别"
+          : "下一级别：" + following.small.toLocaleString("zh-CN") + " / " +
+            following.big.toLocaleString("zh-CN");
+        el("remainingPlayers").textContent = remainingPlayers;
+        el("totalPlayers").textContent = totalPlayers;
+        el("levelCount").textContent = (levelIndex + 1) + " / " + levels.length;
+        el("clockStatus").textContent = running ? "计时中" : "已暂停";
+        el("clockStatus").classList.toggle("running", running);
+        if (menuOpen) renderSettings();
+      }
+
+      function changeLevel(delta) {
+        var nextIndex = Math.max(0, Math.min(levels.length - 1, levelIndex + delta));
+        if (nextIndex === levelIndex) return;
+        levelIndex = nextIndex;
+        remainingSeconds = levelDuration;
+        render();
+      }
+
+      function changeRemaining(delta) {
+        remainingPlayers = Math.max(0, Math.min(totalPlayers, remainingPlayers + delta));
+        render();
+      }
+
+      function setRunning(value) {
+        running = value;
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+        if (running) {
+          timer = setInterval(function () {
+            if (remainingSeconds > 0) {
+              remainingSeconds -= 1;
+            } else if (levelIndex < levels.length - 1) {
+              levelIndex += 1;
+              remainingSeconds = levelDuration;
+            } else {
+              setRunning(false);
+            }
+            render();
+          }, 1000);
+        }
+        render();
+      }
+
+      function adjustSetting(delta) {
+        var key = settingRows[selectedSetting].key;
+        if (key === "remaining") {
+          remainingPlayers = Math.max(0, Math.min(totalPlayers, remainingPlayers + delta));
+        } else if (key === "total") {
+          totalPlayers = Math.max(2, Math.min(500, totalPlayers + delta));
+          remainingPlayers = Math.min(remainingPlayers, totalPlayers);
+        } else {
+          levelDuration = Math.max(60, Math.min(3600, levelDuration + delta * 60));
+          remainingSeconds = levelDuration;
+        }
+        render();
+      }
+
+      function renderSettings() {
+        var container = el("settingsRows");
+        container.replaceChildren();
+        settingRows.forEach(function (setting, index) {
+          var row = document.createElement("div");
+          row.className = "setting-row" + (index === selectedSetting ? " selected" : "");
+          var label = document.createElement("span");
+          label.className = "setting-name";
+          label.textContent = setting.label;
+          var value = document.createElement("div");
+          value.className = "setting-value";
+          var minus = document.createElement("button");
+          minus.className = "adjust";
+          minus.textContent = "−";
+          minus.setAttribute("aria-label", "减少" + setting.label);
+          minus.addEventListener("click", function () {
+            selectedSetting = index;
+            adjustSetting(-1);
+          });
+          var number = document.createElement("span");
+          number.className = "value";
+          number.textContent = setting.key === "remaining" ? remainingPlayers :
+            setting.key === "total" ? totalPlayers : Math.round(levelDuration / 60);
+          var plus = document.createElement("button");
+          plus.className = "adjust";
+          plus.textContent = "+";
+          plus.setAttribute("aria-label", "增加" + setting.label);
+          plus.addEventListener("click", function () {
+            selectedSetting = index;
+            adjustSetting(1);
+          });
+          value.append(minus, number, plus);
+          row.append(label, value);
+          container.append(row);
+        });
+      }
+
+      function setMenu(open) {
+        menuOpen = open;
+        el("settingsModal").hidden = !open;
+        if (open) renderSettings();
+      }
+
+      function moveSetting(delta) {
+        selectedSetting = Math.max(0, Math.min(settingRows.length - 1, selectedSetting + delta));
+        renderSettings();
+      }
+
+      el("closeSettings").addEventListener("click", function () { setMenu(false); });
+      el("settingsModal").addEventListener("click", function (event) {
+        if (event.target === el("settingsModal")) setMenu(false);
+      });
+
+      window.TerminalRemote = {
+        isReady: function () { return !!el("clock") && !!el("levelTitle"); },
+        menu: function () { setMenu(!menuOpen); return true; },
+        confirm: function () {
+          if (menuOpen) setMenu(false);
+          else setRunning(!running);
+          return true;
+        },
+        left: function () {
+          if (menuOpen) adjustSetting(-1);
+          else changeLevel(-1);
+          return true;
+        },
+        right: function () {
+          if (menuOpen) adjustSetting(1);
+          else changeLevel(1);
+          return true;
+        },
+        up: function () {
+          if (menuOpen) moveSetting(-1);
+          else changeRemaining(1);
+          return true;
+        },
+        down: function () {
+          if (menuOpen) moveSetting(1);
+          else changeRemaining(-1);
+          return true;
+        },
+        dismiss: function () { setMenu(false); return true; }
+      };
+
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -36,7 +36,16 @@ title: "Poker MTT · 赛事终端"
 | 09 | [多屏同步](./09-realtime.html) | 主屏和副屏为什么能保持一致 |
 | 10 | [团队协作](./10-permissions.html) | 老板、店长、荷官、观众分别能做什么 |
 | 11 | [常见问题](./11-faq.html) | 断网、电视浏览器、续期、数据丢失等实际疑问 |
-| 12 | [部署说明](./12-deploy.html) | 这个介绍站怎么部署，嵌入介绍页要注意什么 |
+
+## 最新动态
+
+不定期更新使用案例和功能说明。
+
+{% for post in site.posts limit:3 %}
+- [{{ post.title }}]({{ post.url | relative_url }}) · {{ post.date | date: "%Y-%m-%d" }}
+{% endfor %}
+
+[查看全部动态 →](./blog/)
 
 ---
 

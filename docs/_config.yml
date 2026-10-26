@@ -10,3 +10,16 @@ header_pages:
   - index.md
 
 google_analytics: G-BP2EEHY8CP
+
+permalink: /blog/:title/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+
+collections:
+  posts:
+    output: true

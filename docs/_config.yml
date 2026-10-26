@@ -8,3 +8,5 @@ plugins:
 show_excerpts: false
 header_pages:
   - index.md
+
+google_analytics: G-BP2EEHY8CP

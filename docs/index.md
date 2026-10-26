@@ -9,17 +9,17 @@ title: "Poker MTT · 赛事终端"
 
 ## 先看整体演示
 
-<div style="position:relative;width:100%;padding-bottom:56.25%;margin:1.5rem 0;">
-  <iframe
-    src="https://poker.nkucyd.cn/introduction"
-    title="Poker MTT 产品介绍"
-    loading="lazy"
-    allow="autoplay"
-    style="position:absolute;inset:0;width:100%;height:100%;border:1px solid #d0d7de;border-radius:8px;">
-  </iframe>
+<div style="position:relative;width:100%;padding-bottom:56.25%;margin:1.5rem 0;overflow:hidden;border-radius:8px;background:#0d1117;">
+  <video
+    controls
+    playsinline
+    preload="none"
+    poster="./media/poker-introduction-poster.jpg"
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;">
+    <source src="./media/poker-introduction.mp4" type="video/mp4">
+    你的浏览器不支持 HTML5 视频，可以<a href="./media/poker-introduction.mp4">直接下载观看</a>。
+  </video>
 </div>
-
-> 如果上方嵌入区域空白，说明服务端返回了 `X-Frame-Options: DENY`。可以直接[在新窗口打开完整介绍](https://poker.nkucyd.cn/introduction)，或让服务端为 introduction 页面放行跨域嵌入。
 
 ## 全部篇幅
 

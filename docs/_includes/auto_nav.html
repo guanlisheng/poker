@@ -1,0 +1,43 @@
+{%- comment -%}
+  自动上一篇 / 下一篇。
+  依据文件名前缀（01-、02- ...）排序，无需在每个页面写 order。
+  只处理文件名形如 "NN-xxx.md" 的页面，index.md、404.html 等自动排除。
+{%- endcomment -%}
+
+{%- if page.url != '/' -%}
+  {%- assign ordered = site.pages | sort: "name" -%}
+  {%- assign prev_page = nil -%}
+  {%- assign next_page = nil -%}
+  {%- assign seen = false -%}
+
+  {%- for p in ordered -%}
+    {%- assign prefix = p.name | slice: 0, 2 | plus: 0 -%}
+    {%- assign sep = p.name | slice: 2, 1 -%}
+    {%- if prefix > 0 and sep == "-" -%}
+      {%- if seen and next_page == nil -%}
+        {%- assign next_page = p -%}
+      {%- endif -%}
+      {%- if p.url == page.url -%}
+        {%- assign seen = true -%}
+      {%- elsif seen == false -%}
+        {%- assign prev_page = p -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  <nav class="auto-nav auto-nav-{{ include.position }}" aria-label="篇幅导航">
+    {%- if prev_page -%}
+      <a class="auto-nav-prev" href="{{ prev_page.url | relative_url }}">← {{ prev_page.title | escape }}</a>
+    {%- else -%}
+      <span class="auto-nav-prev" aria-hidden="true"></span>
+    {%- endif -%}
+
+    <a class="auto-nav-home" href="{{ '/' | relative_url }}">目录</a>
+
+    {%- if next_page -%}
+      <a class="auto-nav-next" href="{{ next_page.url | relative_url }}">{{ next_page.title | escape }} →</a>
+    {%- else -%}
+      <span class="auto-nav-next" aria-hidden="true"></span>
+    {%- endif -%}
+  </nav>
+{%- endif -%}

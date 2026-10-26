@@ -1,0 +1,10 @@
+title: Poker MTT · 赛事终端
+description: 一块屏幕管住整场比赛：盲注时钟、终端配对、多屏同步、语音播报。
+theme: minima
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+show_excerpts: false
+header_pages:
+  - index.md

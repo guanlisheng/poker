@@ -50,9 +50,7 @@ Poker Terminal 提供赛事管理与计时体验。搭配合适的显示设备�
 
 如果你已经有 iPhone 或 iPad，并且希望尽量复用现有设备，可以考虑 AirPlay。
 
-Poker Terminal 的 App Store 页面：
-
-https://apps.apple.com/us/app/poker-terminal/id6823851216 (或https://testflight.apple.com/join/UVM7an2N)
+Poker Terminal 的 [App Store 页面](https://apps.apple.com/us/app/poker-terminal/id6823851216) 或 [TestFlight链接](https://testflight.apple.com/join/UVM7an2N)
 
 AirPlay 可以将 Apple 设备上的画面发送到兼容的接收设备，例如支持 AirPlay 的电视、Apple TV 或其他兼容接收端。
 
@@ -84,7 +82,7 @@ AirPlay 可以将 Apple 设备上的画面发送到兼容的接收设备，例�
 
 如果电视、电视盒子、电脑或平板已经带有现代浏览器，那么还可以尝试直接访问：
 
-https://poker.nkucyd.cn/terminal
+[https://poker.nkucyd.cn/terminal](https://poker.nkucyd.cn/terminal)
 
 这是一种比较灵活的部署方式：显示设备负责打开终端页面，赛事管理则可以在另一台设备上完成。
 
@@ -162,10 +160,10 @@ https://poker.nkucyd.cn/terminal
 
 Poker Terminal 适合希望更方便地管理德州扑克赛事计时和现场显示的用户。无论是家庭朋友局还是固定俱乐部，都可以根据现有设备选择适合自己的大屏方式。
 
-- **iPhone / iPad：** https://apps.apple.com/us/app/poker-terminal/id6823851216
-- **Poker MTT：** http://poker.guanlisheng.com/
-- **大屏终端：** https://poker.nkucyd.cn/terminal
-- **三天试用介绍：** http://poker.guanlisheng.com/blog/three-days-trial/
+- **iPhone / iPad：** [App Store](https://apps.apple.com/us/app/poker-terminal/id6823851216) 或 [TestFlight](https://testflight.apple.com/join/UVM7an2N)
+- **Poker MTT：** [介绍](http://poker.guanlisheng.com/)
+- **大屏终端：** [`https://poker.nkucyd.cn/terminal`](https://poker.nkucyd.cn/terminal)
+- **三天试用介绍：** [three-days-trial](http://poker.guanlisheng.com/blog/three-days-trial/)
 
 如果你已经有电视，不妨先从最容易实现的方案开始。让所有人都能看清当前盲注和剩余时间，一场比赛就能少一些反复确认，多一些专注和节奏。
 

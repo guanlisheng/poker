@@ -1,7 +1,7 @@
 ---
 title: "德州扑克赛事计时器如何上大屏：Android TV、AirPlay 与浏览器三种方案"
 date: 2026-10-27
-tags: [Poker Terminal, Poker MTT, 使用指南, 大屏展示]
+tags: [Poker Terminal, 西瓜大屏, 使用指南, 大屏展示]
 ---
 
 # 德州扑克赛事计时器如何上大屏：Android TV、AirPlay 与浏览器三种方案
@@ -161,8 +161,9 @@ AirPlay 可以将 Apple 设备上的画面发送到兼容的接收设备，例�
 Poker Terminal 适合希望更方便地管理德州扑克赛事计时和现场显示的用户。无论是家庭朋友局还是固定俱乐部，都可以根据现有设备选择适合自己的大屏方式。
 
 - **iPhone / iPad：** [App Store](https://apps.apple.com/us/app/poker-terminal/id6823851216) 或 [TestFlight](https://testflight.apple.com/join/UVM7an2N)
-- **Poker MTT：** [介绍](http://poker.guanlisheng.com/)
-- **大屏终端：** [`https://poker.nkucyd.cn/terminal`](https://poker.nkucyd.cn/terminal)
+- **西瓜大屏：** [管理](http://poker.nkucyd.cn/)
+- **西瓜大屏：** [介绍](http://poker.guanlisheng.com/)
+- **西瓜大屏终端：** [`https://poker.nkucyd.cn/terminal`](https://poker.nkucyd.cn/terminal)
 - **三天试用介绍：** [three-days-trial](http://poker.guanlisheng.com/blog/three-days-trial/)
 
 如果你已经有电视，不妨先从最容易实现的方案开始。让所有人都能看清当前盲注和剩余时间，一场比赛就能少一些反复确认，多一些专注和节奏。

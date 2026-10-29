@@ -5,58 +5,119 @@ description: 面向线下扑克赛事的盲注时钟与多屏管理工具。通�
 permalink: /
 ---
 
-# 一块屏幕管住整场比赛
+<section class="home-hero">
+  <div class="home-hero-copy">
+    <p class="home-eyebrow">POKER TOURNAMENT MANAGEMENT</p>
 
-盲注时钟、赛事管理、终端配对、多屏同步和语音播报。
-让主持人专注比赛，让选手抬头就能看清当前进度。
+    <h1>一块屏幕，管住整场比赛。</h1>
 
-[进入管理端](https://poker.nkucyd.cn/){: .button .button-primary }
+    <p class="home-hero-lead">
+      西瓜大屏是一款面向线下扑克赛事的盲注计时与多屏管理工具。
+      从赛事创建、电视终端配对，到多屏同步和语音播报，
+      让比赛进度清晰可见，让现场管理更从容。
+    </p>
 
-[了解三天试用](./05-trial){: .button .button-secondary }
+    <div class="home-hero-actions">
+      <a class="button button-primary"
+         href="https://poker.nkucyd.cn/">
+        进入赛事控制台 <span aria-hidden="true">→</span>
+      </a>
+      <a class="button button-secondary"
+         href="{{ '/05-trial/' | relative_url }}">
+        了解三天试用
+      </a>
+    </div>
 
-## 先看实际效果
+    <div class="home-hero-points">
+      <span>盲注计时</span>
+      <span>多屏同步</span>
+      <span>电视与浏览器接入</span>
+    </div>
+  </div>
 
-西瓜大屏将赛事管理和现场显示分开：工作人员在管理端操作，电视、投影或其他终端显示比赛信息。
+  <div class="home-hero-visual">
+    <div class="home-visual-top">
+      <span class="home-live-dot"></span>
+      <span>TOURNAMENT DISPLAY</span>
+      <span class="home-visual-status">赛事大屏</span>
+    </div>
 
-<video controls playsinline preload="metadata"
-       poster="{{ '/media/poker-introduction-poster.jpg' | relative_url }}"
-       style="display:block;width:100%;border-radius:12px;background:#111;">
-  <source src="{{ '/media/poker-introduction.mp4' | relative_url }}" type="video/mp4">
-  当前浏览器不支持视频播放。
-  <a href="{{ '/media/poker-introduction.mp4' | relative_url }}">直接打开演示视频</a>
-</video>
+    <video
+      controls
+      playsinline
+      preload="metadata"
+      poster="{{ '/media/poker-introduction-poster.jpg' | relative_url }}">
+      <source
+        src="{{ '/media/poker-introduction.mp4' | relative_url }}"
+        type="video/mp4">
+      当前浏览器不支持视频播放。
+      <a href="{{ '/media/poker-introduction.mp4' | relative_url }}">
+        直接打开演示视频
+      </a>
+    </video>
 
-## 它能解决什么问题？
+    <div class="home-visual-caption">
+      <span>赛事管理</span>
+      <span>·</span>
+      <span>终端显示</span>
+      <span>·</span>
+      <span>实时同步</span>
+    </div>
+  </div>
+</section>
 
-### 盲注变化，一眼看清
+<section class="home-features">
+  <div class="home-section-heading">
+    <p class="home-eyebrow">BUILT FOR LIVE EVENTS</p>
+    <h2>让比赛现场更有秩序</h2>
+    <p>把最重要的比赛信息放在该出现的地方。</p>
+  </div>
 
-大屏显示当前级别、倒计时、小盲、大盲、前注以及下一级预告。减少主持人反复报时和选手询问的次数。
+  <div class="home-feature-grid">
+    <a class="home-feature-card" href="{{ '/01-clock/' | relative_url }}">
+      <span class="home-feature-number">01</span>
+      <h3>盲注计时</h3>
+      <p>清晰显示当前级别、剩余时间、小盲、大盲和下一级预告。</p>
+      <span class="home-feature-link">了解盲注时钟 →</span>
+    </a>
 
-[了解盲注时钟 →](./01-clock)
+    <a class="home-feature-card" href="{{ '/02-tournament/' | relative_url }}">
+      <span class="home-feature-number">02</span>
+      <h3>赛事管理</h3>
+      <p>复用盲注模板，创建赛事，并在比赛过程中进行必要的控制。</p>
+      <span class="home-feature-link">了解赛事管理 →</span>
+    </a>
 
-### 一场比赛，不必从头配置
+    <a class="home-feature-card" href="{{ '/03-terminal/' | relative_url }}">
+      <span class="home-feature-number">03</span>
+      <h3>灵活接入大屏</h3>
+      <p>根据现有设备，选择 Android TV、AirPlay 或浏览器终端。</p>
+      <span class="home-feature-link">查看接入方式 →</span>
+    </a>
 
-通过盲注模板复用常见赛事结构。创建比赛后，当前比赛拥有自己的级别表，调整模板不会意外改变已经开始的赛事。
+    <a class="home-feature-card" href="{{ '/09-realtime/' | relative_url }}">
+      <span class="home-feature-number">04</span>
+      <h3>多屏同步</h3>
+      <p>让主屏和其他显示终端围绕同一场赛事展示最新状态。</p>
+      <span class="home-feature-link">了解多屏同步 →</span>
+    </a>
 
-[了解赛事管理 →](./02-tournament)
+    <a class="home-feature-card" href="{{ '/07-voice/' | relative_url }}">
+      <span class="home-feature-number">05</span>
+      <h3>语音播报</h3>
+      <p>通过升盲前提醒和升盲后播报，减少现场重复报时。</p>
+      <span class="home-feature-link">了解语音播报 →</span>
+    </a>
 
-### 电视负责显示，管理端负责操作
+    <a class="home-feature-card" href="{{ '/06-themes/' | relative_url }}">
+      <span class="home-feature-number">06</span>
+      <h3>自定义主题</h3>
+      <p>根据场地风格调整显示效果，同时优先保证远距离可读性。</p>
+      <span class="home-feature-link">查看主题说明 →</span>
+    </a>
+  </div>
+</section>
 
-通过终端配对和赛事分配，将电视、投影、电视盒子或兼容浏览器设备接入比赛。
-
-[了解终端配置 →](./03-terminal)
-
-### 多块屏幕，围绕同一场比赛工作
-
-在实际授权范围内，将终端分配到对应赛事。比赛状态变化后，相关终端获取最新信息。
-
-[了解多屏同步 →](./09-realtime)
-
-### 现场提醒，不必每次靠人喊
-
-支持升盲前提醒和升盲后播报，并可按俱乐部、单场比赛和设备分别设置相关选项。
-
-[了解语音播报 →](./07-voice)
 
 ## 从家庭局到固定场地
 

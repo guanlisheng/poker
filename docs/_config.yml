@@ -19,6 +19,7 @@ excerpt_separator: "\n\n"
 
 header_pages:
   - index.md
+  - 12-user-guide.md
   - 01-clock.md
   - 02-tournament.md
   - 03-terminal.md

@@ -11,6 +11,11 @@
         首页
       </a>
 
+      <a href="{{ '/user-guide/' | relative_url }}"
+         {% if page.url contains 'user-guide' %}aria-current="page"{% endif %}>
+        快速入门
+      </a>
+
       <a href="{{ '/01-clock/' | relative_url }}"
          {% if page.url contains '01-clock' %}aria-current="page"{% endif %}>
         产品功能

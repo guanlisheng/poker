@@ -1,70 +1,23 @@
 ---
 layout: default
 ---
-<style>
-  .auto-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin: 1.25rem 0;
-    padding: 0.65rem 1rem;
-    border: 1px solid #d0d7de;
-    border-radius: 8px;
-    background: #f6f8fa;
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-  .auto-nav a {
-    color: #0969da;
-    text-decoration: none;
-  }
-  .auto-nav a:hover {
-    text-decoration: underline;
-  }
-  .auto-nav-prev,
-  .auto-nav-next {
-    flex: 1 1 0;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .auto-nav-next {
-    text-align: right;
-  }
-  .auto-nav-home {
-    flex: 0 0 auto;
-    font-weight: 600;
-  }
-  @media (max-width: 600px) {
-    .auto-nav {
-      flex-wrap: wrap;
-    }
-    .auto-nav-prev,
-    .auto-nav-next {
-      flex: 1 1 100%;
-      white-space: normal;
-    }
-    .auto-nav-next {
-      text-align: left;
-    }
-    .auto-nav-home {
-      order: -1;
-      width: 100%;
-      text-align: center;
-    }
-  }
-</style>
 
-<article class="post">
-  <header class="post-header">
-    <h1 class="post-title">{{ page.title | escape }}</h1>
+<article class="page-article">
+  <header class="page-header">
+    <h1>{{ page.title | escape }}</h1>
+
+    {% if page.description %}
+      <p class="page-description">
+        {{ page.description | escape }}
+      </p>
+    {% endif %}
   </header>
 
-  <div class="post-content">
-    {% include auto_nav.html position="top" %}
+  {% include auto_nav.html position="top" %}
+
+  <div class="prose">
     {{ content }}
-    {% include auto_nav.html position="bottom" %}
   </div>
+
+  {% include auto_nav.html position="bottom" %}
 </article>

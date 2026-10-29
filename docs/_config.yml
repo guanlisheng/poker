@@ -1,25 +1,47 @@
 title: 西瓜大屏
-description: 一块屏幕管住整场比赛：盲注时钟、终端配对、多屏同步、语音播报。
+description: 面向线下扑克赛事的盲注计时与多屏管理工具。支持赛事管理、电视终端配对、多屏同步、语音播报和自定义主题。
+url: "https://poker.guanlisheng.com"
+baseurl: ""
+
+lang: zh-CN
+timezone: Asia/Shanghai
+
 theme: minima
 markdown: kramdown
+permalink: /blog/:title/
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-show_excerpts: false
+
+show_excerpts: true
+excerpt_separator: "\n\n"
+
 header_pages:
   - index.md
+  - 01-clock.md
+  - 02-tournament.md
+  - 03-terminal.md
+  - blog/index.md
 
 google_analytics: G-BP2EEHY8CP
-
-permalink: /blog/:title/
 
 defaults:
   - scope:
       path: ""
-      type: "posts"
+      type: pages
     values:
-      layout: "post"
+      layout: page
 
-collections:
-  posts:
-    output: true
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  - vendor

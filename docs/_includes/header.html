@@ -1,80 +1,35 @@
-<header class="site-header" role="banner">
-  <style>
-    .site-header {
-      border-top: 5px solid #424242;
-      border-bottom: 1px solid #e8e8e8;
-      min-height: 55px;
-      background: #fdfdfd;
-    }
-    .site-header .wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      min-height: 55px;
-    }
-    .site-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: #424242;
-      text-decoration: none;
-      line-height: 1.2;
-      padding: 0.5rem 0;
-    }
-    .site-title:hover {
-      text-decoration: none;
-      color: #0969da;
-    }
-    .site-nav {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-      flex-wrap: wrap;
-    }
-    .site-nav a {
-      display: inline-block;
-      padding: 0.35rem 0.75rem;
-      border-radius: 6px;
-      color: #424242;
-      font-size: 0.95rem;
-      text-decoration: none;
-      line-height: 1.2;
-    }
-    .site-nav a:hover {
-      background: #f0f3f6;
-      color: #0969da;
-      text-decoration: none;
-    }
-    .site-nav a.is-active {
-      background: #0969da;
-      color: #fff;
-    }
-    @media (max-width: 600px) {
-      .site-header .wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-      }
-      .site-nav {
-        width: 100%;
-      }
-      .site-nav a {
-        flex: 1 1 auto;
-        text-align: center;
-      }
-    }
-  </style>
-
-  <div class="wrapper">
-    <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title | escape }}</a>
+<header class="site-header">
+  <div class="wrapper header-inner">
+    <a class="site-brand" href="{{ '/' | relative_url }}">
+      <span class="brand-mark" aria-hidden="true">西</span>
+      <span>{{ site.title | escape }}</span>
+    </a>
 
     <nav class="site-nav" aria-label="主导航">
       <a href="{{ '/' | relative_url }}"
-         class="{% if page.url == '/' %}is-active{% endif %}">首页</a>
+         {% if page.url == '/' %}aria-current="page"{% endif %}>
+        首页
+      </a>
+
+      <a href="{{ '/01-clock/' | relative_url }}"
+         {% if page.url contains '01-clock' %}aria-current="page"{% endif %}>
+        产品功能
+      </a>
+
+      <a href="{{ '/03-terminal/' | relative_url }}"
+         {% if page.url contains '03-terminal' %}aria-current="page"{% endif %}>
+        大屏方案
+      </a>
+
       <a href="{{ '/blog/' | relative_url }}"
-         class="{% if page.url contains '/blog/' %}is-active{% endif %}">动态</a>
+         {% if page.url contains '/blog/' %}aria-current="page"{% endif %}>
+        动态
+      </a>
+
+      <a class="nav-cta"
+         href="https://poker.nkucyd.cn/">
+        开始使用
+      </a>
     </nav>
   </div>
 </header>

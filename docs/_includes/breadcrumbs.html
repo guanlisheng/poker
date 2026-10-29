@@ -1,0 +1,16 @@
+{% unless page.url == "/" %}
+<nav class="breadcrumbs" aria-label="面包屑导航">
+  <a href="{{ '/' | relative_url }}">首页</a>
+  <span aria-hidden="true">/</span>
+
+  {% if page.url contains "/blog/" %}
+    <a href="{{ '/blog/' | relative_url }}">动态</a>
+    {% if page.layout == "post" %}
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ page.title | escape }}</span>
+    {% endif %}
+  {% else %}
+    <span aria-current="page">{{ page.title | escape }}</span>
+  {% endif %}
+</nav>
+{% endunless %}

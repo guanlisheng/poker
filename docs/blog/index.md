@@ -1,27 +1,46 @@
 ---
 layout: page
-title: "动态"
+title: 产品动态
+description: 西瓜大屏的使用指南、功能说明和产品动态。
 permalink: /blog/
 ---
 
-不定期更新的使用案例、功能说明和用户故事。没有固定的更新节奏，有想写的就写一篇。
+# 产品动态
 
-{% for post in site.posts %}
-<article style="margin: 2rem 0; padding-bottom: 1.25rem; border-bottom: 1px solid #eaeef2;">
-  <h2 style="margin-bottom: 0.25rem;">
-    <a href="{{ post.url | relative_url }}" style="text-decoration: none;">{{ post.title }}</a>
+这里整理西瓜大屏的使用指南、功能说明和场景案例，帮助你在正式部署前了解产品。
+
+{% assign posts = site.posts | sort: "date" | reverse %}
+
+{% for post in posts %}
+<article class="blog-entry">
+  <h2>
+    <a href="{{ post.url | relative_url }}">
+      {{ post.title | escape }}
+    </a>
   </h2>
-  <p style="color: #57606a; font-size: 0.9rem; margin: 0 0 0.5rem;">
-    {{ post.date | date: "%Y-%m-%d" }}
-    {%- if post.tags.size > 0 %} · {{ post.tags | join: " / " }}{% endif -%}
+
+  <p class="post-meta">
+    <time datetime="{{ post.date | date_to_xmlschema }}">
+      {{ post.date | date: "%Y-%m-%d" }}
+    </time>
+
+    {% for tag in post.tags %}
+      <span class="tag">{{ tag | escape }}</span>
+    {% endfor %}
   </p>
-  <p style="margin: 0;">
-    {{ post.excerpt | strip_html | truncate: 160 }}
+
+  {% if post.description %}
+    <p>{{ post.description | escape }}</p>
+  {% else %}
+    <p>{{ post.excerpt | strip_html | normalize_whitespace | truncate: 180 }}</p>
+  {% endif %}
+
+  <p>
     <a href="{{ post.url | relative_url }}">阅读全文 →</a>
   </p>
 </article>
 {% endfor %}
 
-{% if site.posts.size == 0 %}
-<p>还没有文章，稍后再来看看。</p>
+{% if posts.size == 0 %}
+目前还没有文章。请稍后再来查看。
 {% endif %}

@@ -1,43 +1,39 @@
 ---
 layout: default
 ---
-<style>
-  .post-meta {
-    color: #57606a;
-    font-size: 0.9rem;
-    margin: -0.5rem 0 1.5rem;
-  }
-  .post-meta .tag {
-    display: inline-block;
-    margin-right: 0.5rem;
-    padding: 0.1rem 0.5rem;
-    border: 1px solid #d0d7de;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    color: #0969da;
-    text-decoration: none;
-  }
-  .post-back {
-    display: inline-block;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-  }
-</style>
 
-<article class="post">
+<article class="post-article">
   <header class="post-header">
-    <a class="post-back" href="{{ '/blog/' | relative_url }}">← 全部动态</a>
-    <h1 class="post-title">{{ page.title | escape }}</h1>
+    <p class="post-eyebrow">产品动态</p>
+    <h1>{{ page.title | escape }}</h1>
+
     <p class="post-meta">
-      {{ page.date | date: "%Y-%m-%d" }}
-      {%- if page.tags.size > 0 %} · {% for tag in page.tags %}<a class="tag" href="{{ '/blog/' | relative_url }}">{{ tag }}</a>{% endfor %}{% endif -%}
+      <time datetime="{{ page.date | date_to_xmlschema }}">
+        {{ page.date | date: "%Y-%m-%d" }}
+      </time>
+
+      {% if page.tags.size > 0 %}
+        <span aria-hidden="true">·</span>
+        {% for tag in page.tags %}
+          <span class="tag">{{ tag | escape }}</span>
+        {% endfor %}
+      {% endif %}
     </p>
+
+    {% if page.description %}
+      <p class="page-description">
+        {{ page.description | escape }}
+      </p>
+    {% endif %}
   </header>
 
-  <div class="post-content">
+  <div class="prose">
     {{ content }}
   </div>
 
   <hr>
-  <p><a href="{{ '/blog/' | relative_url }}">← 返回全部动态</a></p>
+
+  <p>
+    <a href="{{ '/blog/' | relative_url }}">← 返回全部动态</a>
+  </p>
 </article>
